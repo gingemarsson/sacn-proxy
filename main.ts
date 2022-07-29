@@ -116,7 +116,7 @@ const setupState = (universes: number[], liveContent: Record<number, Record<numb
         sendFreeze: (universeId: number) => currentContent[universeId] = {data: {...liveContent[universeId]}, label: 'freeze'},
         sendSnapshot: (universeId: number, snapshotId: number) => currentContent[universeId] = {data: snapshots[universeId][snapshotId], label: snapshotId.toString()},
         storeSnapshot: (universeId: number, snapshotId: number) => snapshots[universeId][snapshotId] = {...liveContent[universeId]},
-        getDataToSendForUniverse: (universeId: number) => currentContent[universeId]?.data ?? null;
+        getDataToSendForUniverse: (universeId: number) => currentContent[universeId]?.data ?? null,
         getStatus: () => universes.reduce((record: Record<number, UniverseStatus>, universeId: number) => ({...record, [universeId]: {feed: currentContent[universeId]?.label ?? 'live', snapshots: snapshots[universeId]}}), {}),
     }
 }
