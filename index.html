@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>sACN Proxy</title>
+        <meta name="viewport" content="initial-scale=1">
+        <style>
+            body {
+                background-color: #1E1E1E;
+                color: #DDDDDD;
+                font-family: sans-serif;
+            }
+
+            body .container {
+                margin: 2rem auto;
+                padding: 1rem;
+                background-color: #252526;
+                max-width: 1400px;
+            }
+
+            button {
+                color: #DDDDDD;
+                background-color: #333333;
+                border: none;
+                padding: 1rem;
+                margin: 0rem;
+            }
+
+            button:active {
+                background-color: #444444;
+            }
+
+            button.side-button {
+                border-left: 1px solid #444444;
+                flex-grow: 0 !important;
+            }
+
+            .container {
+                display: flex;
+                gap: 1rem;
+            }
+
+            @media screen and (max-width: 800px) {
+                .container {
+                    flex-direction: column;
+                }
+            }
+
+            .universe-container {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+            }
+
+            .universe-container h1 {
+                font-size: 1.5em;
+            }
+
+            .row-container {
+                display: flex;
+                margin-bottom: 0.5rem;
+            }
+
+            .row-container button {
+                flex-grow: 1;
+            }
+
+            .status-text {
+                color: #AAAAAA;
+            }
+
+            .active {
+                background-color: #085a9d !important;
+            }
+
+        </style>
+        <script>
+            sendApiCall = async (universeId, action, id = '') => {
+                const response = await fetch(`/api/${universeId}/${action}/${id}`, {
+                    method: "GET",
+                })
+
+                if (!response.ok) {
+                    throw new Error(`Request failed with status ${reponse.status}`)
+                }
+                updateStatus(await response.json());
+            }
+
+            updateStatus = (status) => {
+                Array.from(document.getElementsByClassName('active')).forEach(activeElement => activeElement.classList?.remove('active'));
+
+                for (universeId in status) {
+                    const newActiveElement = document.getElementsByClassName(`universe-${universeId}-action-${status[universeId].feed}`)[0];
+                    if (newActiveElement)
+                    {
+                        newActiveElement.classList.add('active');
+                    }
+                }
+            }
+
+            sendApiCall(0, 'status');
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="universe-container">
+                <h1>Universe 1</h1>
+                <div class="row-container">
+                    <button class="universe-1-action-live" onclick="sendApiCall(1, 'live')">Live</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-1-action-freeze" onclick="sendApiCall(1, 'freeze')">Freeze</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-1-action-1" onclick="sendApiCall(1, 'sendSnapshot', 1)">Snapshot 1</button><button onclick="sendApiCall(1, 'storeSnapshot', 1)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-1-action-2" onclick="sendApiCall(1, 'sendSnapshot', 2)">Snapshot 2</button><button onclick="sendApiCall(1, 'storeSnapshot', 2)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-1-action-3" onclick="sendApiCall(1, 'sendSnapshot', 3)">Snapshot 3</button><button onclick="sendApiCall(1, 'storeSnapshot', 3)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-1-action-4" onclick="sendApiCall(1, 'sendSnapshot', 4)">Snapshot 4</button><button onclick="sendApiCall(1, 'storeSnapshot', 4)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-1-action-5" onclick="sendApiCall(1, 'sendSnapshot', 5)">Snapshot 5</button><button onclick="sendApiCall(1, 'storeSnapshot', 5)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-1-action-6" onclick="sendApiCall(1, 'sendSnapshot', 6)">Snapshot 6</button><button onclick="sendApiCall(1, 'storeSnapshot', 6)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-1-action-7" onclick="sendApiCall(1, 'sendSnapshot', 7)">Snapshot 7</button><button onclick="sendApiCall(1, 'storeSnapshot', 7)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-1-action-8" onclick="sendApiCall(1, 'sendSnapshot', 8)">Snapshot 8</button><button onclick="sendApiCall(1, 'storeSnapshot', 8)" class="side-button">Save</button>
+                </div>
+            </div>
+            <div class="universe-container">
+                <h1>Universe 2</h1>
+                <div class="row-container">
+                    <button class="universe-2-action-live" onclick="sendApiCall(2, 'live')">Live</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-2-action-freeze" onclick="sendApiCall(2, 'freeze')">Freeze</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-2-action-1" onclick="sendApiCall(2, 'sendSnapshot', 1)">Snapshot 1</button><button onclick="sendApiCall(2, 'storeSnapshot', 1)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-2-action-2" onclick="sendApiCall(2, 'sendSnapshot', 2)">Snapshot 2</button><button onclick="sendApiCall(2, 'storeSnapshot', 2)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-2-action-3" onclick="sendApiCall(2, 'sendSnapshot', 3)">Snapshot 3</button><button onclick="sendApiCall(2, 'storeSnapshot', 3)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-2-action-4" onclick="sendApiCall(2, 'sendSnapshot', 4)">Snapshot 4</button><button onclick="sendApiCall(2, 'storeSnapshot', 4)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-2-action-5" onclick="sendApiCall(2, 'sendSnapshot', 5)">Snapshot 5</button><button onclick="sendApiCall(2, 'storeSnapshot', 5)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-2-action-6" onclick="sendApiCall(2, 'sendSnapshot', 6)">Snapshot 6</button><button onclick="sendApiCall(2, 'storeSnapshot', 6)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-2-action-7" onclick="sendApiCall(2, 'sendSnapshot', 7)">Snapshot 7</button><button onclick="sendApiCall(2, 'storeSnapshot', 7)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-2-action-8" onclick="sendApiCall(2, 'sendSnapshot', 8)">Snapshot 8</button><button onclick="sendApiCall(2, 'storeSnapshot', 8)" class="side-button">Save</button>
+                </div>
+            </div>
+            <div class="universe-container">
+                <h1>Universe 3</h1>
+                <div class="row-container">
+                    <button class="universe-3-action-live" onclick="sendApiCall(3, 'live')">Live</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-3-action-freeze" onclick="sendApiCall(3, 'freeze')">Freeze</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-3-action-1" onclick="sendApiCall(3, 'sendSnapshot', 1)">Snapshot 1</button><button onclick="sendApiCall(3, 'storeSnapshot', 1)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-3-action-2" onclick="sendApiCall(3, 'sendSnapshot', 2)">Snapshot 2</button><button onclick="sendApiCall(3, 'storeSnapshot', 2)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-3-action-3" onclick="sendApiCall(3, 'sendSnapshot', 3)">Snapshot 3</button><button onclick="sendApiCall(3, 'storeSnapshot', 3)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-3-action-4" onclick="sendApiCall(3, 'sendSnapshot', 4)">Snapshot 4</button><button onclick="sendApiCall(3, 'storeSnapshot', 4)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-3-action-5" onclick="sendApiCall(3, 'sendSnapshot', 5)">Snapshot 5</button><button onclick="sendApiCall(3, 'storeSnapshot', 5)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-3-action-6" onclick="sendApiCall(3, 'sendSnapshot', 6)">Snapshot 6</button><button onclick="sendApiCall(3, 'storeSnapshot', 6)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-3-action-7" onclick="sendApiCall(3, 'sendSnapshot', 7)">Snapshot 7</button><button onclick="sendApiCall(3, 'storeSnapshot', 7)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-3-action-8" onclick="sendApiCall(3, 'sendSnapshot', 8)">Snapshot 8</button><button onclick="sendApiCall(3, 'storeSnapshot', 8)" class="side-button">Save</button>
+                </div>
+            </div>
+            <div class="universe-container">
+                <h1>Universe 4</h1>
+                <div class="row-container">
+                    <button class="universe-4-action-live" onclick="sendApiCall(4, 'live')">Live</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-4-action-freeze" onclick="sendApiCall(4, 'freeze')">Freeze</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-4-action-1" onclick="sendApiCall(4, 'sendSnapshot', 1)">Snapshot 1</button><button onclick="sendApiCall(4, 'storeSnapshot', 1)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-4-action-2" onclick="sendApiCall(4, 'sendSnapshot', 2)">Snapshot 2</button><button onclick="sendApiCall(4, 'storeSnapshot', 2)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-4-action-3" onclick="sendApiCall(4, 'sendSnapshot', 3)">Snapshot 3</button><button onclick="sendApiCall(4, 'storeSnapshot', 3)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-4-action-4" onclick="sendApiCall(4, 'sendSnapshot', 4)">Snapshot 4</button><button onclick="sendApiCall(4, 'storeSnapshot', 4)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-4-action-5" onclick="sendApiCall(4, 'sendSnapshot', 5)">Snapshot 5</button><button onclick="sendApiCall(4, 'storeSnapshot', 5)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-4-action-6" onclick="sendApiCall(4, 'sendSnapshot', 6)">Snapshot 6</button><button onclick="sendApiCall(4, 'storeSnapshot', 6)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-4-action-7" onclick="sendApiCall(4, 'sendSnapshot', 7)">Snapshot 7</button><button onclick="sendApiCall(4, 'storeSnapshot', 7)" class="side-button">Save</button>
+                </div>
+                <div class="row-container">
+                    <button class="universe-4-action-8" onclick="sendApiCall(4, 'sendSnapshot', 8)">Snapshot 8</button><button onclick="sendApiCall(4, 'storeSnapshot', 8)" class="side-button">Save</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
