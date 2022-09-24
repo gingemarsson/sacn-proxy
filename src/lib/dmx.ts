@@ -1,5 +1,8 @@
 import { Receiver, Sender } from 'sacn';
 import { StateService } from '../models/models';
+import { getCategoryLogger } from './utils';
+
+const log = getCategoryLogger('SACN server');
 
 // Listener
 //
@@ -18,14 +21,13 @@ export const setupDmxListener = (universes: number[]) => {
 
     listenForDmx(sACN, result);
 
-    console.log(`[sACN server] App listening on universes ${universes}`);
+    log(`App listening on universes ${universes}`);
 
     return result;
 };
 
 export const listenForDmx = async (reciver: Receiver, result: Record<number, Record<number, number> | null>) => {
     reciver.on('packet', async (packet) => {
-        console.log('received', packet.payload);
         result[packet.universe] = packet.payload;
     });
 };
@@ -60,5 +62,5 @@ export const setupDmxSending = (universes: number[], state: StateService, appNam
         });
     }, 1000);
 
-    console.log(`[sACN server] App ready to send universes ${universes} as ${appName} with priority ${priority}`);
+    log(`App ready to send universes ${universes} as ${appName} with priority ${priority}`);
 };

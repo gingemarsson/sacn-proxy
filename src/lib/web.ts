@@ -1,5 +1,8 @@
 import express from 'express';
 import { StateService } from '../models/models';
+import { getCategoryLogger } from './utils';
+
+const log = getCategoryLogger('Web server');
 
 // Sender
 //
@@ -45,10 +48,10 @@ export const setupWebServer = async (state: StateService) => {
 
         res.send(state.getStatus());
 
-        console.log(`[Web server] API call received for action ${action}`);
+        log(`API call received for action ${action}`);
     });
 
     app.listen(port, () => {
-        console.log(`[Web server] App listening on port ${port}`);
+        log(`App listening on port ${port}`);
     });
 };

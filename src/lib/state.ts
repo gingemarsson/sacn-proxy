@@ -1,4 +1,7 @@
 import { StateService, UniverseStatus } from '../models/models';
+import { getCategoryLogger } from './utils';
+
+const log = getCategoryLogger('State service');
 
 // State handling
 //
@@ -21,7 +24,7 @@ export const setupState = (
         {},
     );
 
-    console.log(`[State service] State ready`);
+    log(`State ready`);
 
     return {
         pauseUniverse: (universeId: number) => (currentContent[universeId] = null),
