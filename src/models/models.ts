@@ -8,6 +8,6 @@ export interface StateService {
 }
 
 export interface UniverseStatus {
-    feed: string,
-    snapshots: any
+    feed: string;
+    snapshots: any;
 }

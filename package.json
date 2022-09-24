@@ -1,17 +1,38 @@
 {
-  "scripts": {
-    "watch": "tsc -w",
-    "build": "tsc",
-    "serve": "node dist/main.js"
-  },
-  "dependencies": {
-    "express": "^4.18.1",
-    "sacn": "^4.2.0",
-    "typescript": "^4.7.4"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.13"
-  },
-  "include": ["src/**/*.ts"],
-  "baseUrl": "."
+    "scripts": {
+        "watch": "tsc -w",
+        "build": "tsc",
+        "serve": "node dist/main.js",
+        "lint": "eslint .",
+        "format": "prettier -w ."
+    },
+    "dependencies": {
+        "express": "^4.18.1",
+        "sacn": "^4.2.0",
+        "typescript": "*"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.13",
+        "@typescript-eslint/eslint-plugin": "^5.38.0",
+        "@typescript-eslint/parser": "^5.38.0",
+        "eslint": "^8.0.1",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-config-standard-with-typescript": "^23.0.0",
+        "eslint-plugin-import": "^2.25.2",
+        "eslint-plugin-n": "^15.0.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-promise": "^6.0.0",
+        "prettier": "^2.7.1"
+    },
+    "include": [
+        "src/**/*.ts"
+    ],
+    "baseUrl": ".",
+    "prettier": {
+        "semi": true,
+        "trailingComma": "all",
+        "singleQuote": true,
+        "printWidth": 120,
+        "tabWidth": 4
+    }
 }

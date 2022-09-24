@@ -6,14 +6,14 @@ import { StateService } from '../models/models';
 export const setupWebServer = async (state: StateService) => {
     const app = express();
     const port = 3000;
-    
+
     app.get('/', (req, res) => {
         res.sendFile('client/index.html', { root: '.' });
-    })
+    });
 
     app.get('/api/status', (req, res) => {
         res.send(state.getStatus());
-    })
+    });
 
     app.get('/api/:universeId/:action/:id?', (req, res) => {
         const universeId = parseInt(req.params.universeId);
@@ -28,11 +28,15 @@ export const setupWebServer = async (state: StateService) => {
                 state.sendFreeze(universeId);
                 break;
             case 'sendSnapshot':
-                if (!snapshotId) {throw 'Invalid snapshot id'}
+                if (!snapshotId) {
+                    throw 'Invalid snapshot id';
+                }
                 state.sendSnapshot(universeId, snapshotId);
                 break;
             case 'storeSnapshot':
-                if (!snapshotId) {throw 'Invalid snapshot id'}
+                if (!snapshotId) {
+                    throw 'Invalid snapshot id';
+                }
                 state.storeSnapshot(universeId, snapshotId);
                 break;
             case 'status':
@@ -41,10 +45,10 @@ export const setupWebServer = async (state: StateService) => {
 
         res.send(state.getStatus());
 
-        console.log(`[Web server] API call received for action ${action}`)
-    })
-    
+        console.log(`[Web server] API call received for action ${action}`);
+    });
+
     app.listen(port, () => {
-        console.log(`[Web server] App listening on port ${port}`)
-    })
-}
+        console.log(`[Web server] App listening on port ${port}`);
+    });
+};
