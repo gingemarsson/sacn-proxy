@@ -6,7 +6,7 @@
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended" // Enables eslint-config-prettier which removes formatting rules interfering with prettier from eslint. Make sure this is always the last configuration in the extends array.
+        "prettier" // Enables eslint-config-prettier which removes formatting rules interfering with prettier from eslint. Make sure this is always the last configuration in the extends array.
     ],
     "overrides": [],
     "parser": "@typescript-eslint/parser",
