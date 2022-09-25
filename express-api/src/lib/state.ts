@@ -106,7 +106,7 @@ export const setupState = (
     };
 
     const getDmxDataReceivedForUniverse = (universeId: number) => liveContent[universeId] ?? {};
-    
+
     log(`State ready`);
 
     return {

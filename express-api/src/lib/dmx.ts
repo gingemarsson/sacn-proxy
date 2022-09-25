@@ -19,16 +19,42 @@ export const setupDmxListener = (universes: number[]) => {
         {},
     );
 
-    listenForDmx(sACN, result);
+    const receivedMetadata = universes.reduce(
+        (
+            record: Record<number, { priority: number; lastReceived: number; sender?: string } | null>,
+            universeId: number,
+        ) => ({
+            ...record,
+            [universeId]: { priority: 0, lastReceived: 0 },
+        }),
+        {},
+    );
+
+    listenForDmx(sACN, result, receivedMetadata);
 
     log(`App listening on universes ${universes}`);
 
     return result;
 };
 
-export const listenForDmx = async (reciver: Receiver, result: Record<number, Record<number, number> | null>) => {
+export const listenForDmx = async (
+    reciver: Receiver,
+    result: Record<number, Record<number, number> | null>,
+    receivedMetadata: Record<number, { priority: number; lastReceived: number; sender?: string } | null>,
+) => {
     reciver.on('packet', async (packet) => {
+        const metadata = receivedMetadata[packet.universe];
+        if (metadata && metadata.priority > packet.priority && metadata.lastReceived > Date.now() - 15000) {
+            // If prio is lower than stored prio, and not enough time has elapsed, return.
+            return;
+        }
+
         result[packet.universe] = packet.payload;
+        receivedMetadata[packet.universe] = {
+            priority: packet.priority,
+            lastReceived: Date.now(),
+            sender: packet.sourceName,
+        };
     });
 };
 
