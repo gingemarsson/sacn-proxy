@@ -1,7 +1,9 @@
-import { State, StateService } from '../models/models';
-import { getCategoryLogger } from './utils';
 import { webcrypto } from 'crypto';
-import { Snapshot, Universe } from '../../../shared/models/models';
+
+import { State, StateService } from '../models/models.js';
+import { getCategoryLogger } from './utils.js';
+import { Snapshot, Universe } from '../../../shared/models/models.js';
+import { readFromDb, writeToDb } from './db.js';
 
 const log = getCategoryLogger('State service');
 const DEFAULTCOLOR = undefined;
@@ -26,6 +28,8 @@ export const patchUniverseById = (id: number, patch: Partial<Universe>, state: S
     }
 
     universe.updated = new Date();
+
+    writeToDb();
 
     return universe;
 };
@@ -56,6 +60,8 @@ export const patchSnapshotById = (universeId: number, snapshotId: string, patch:
     }
 
     snapshot.updated = new Date();
+
+    writeToDb();
 
     return snapshot;
 };
@@ -90,12 +96,11 @@ export const getDmxDataToSendForUniverse = (universeId: number, state: State) =>
 
 // State handling
 //
-export const setupState = (
+export const setupState = async (
     universes: number[],
     liveContent: Record<number, Record<number, number> | null>,
-): StateService => {
-    const state: State = {
-        priority: 190,
+): Promise<StateService> => {
+    const defaultState: State = {
         universes: universes.map((universeId) => ({
             id: universeId,
             name: 'Universe ' + universeId,
@@ -105,26 +110,49 @@ export const setupState = (
         })),
     };
 
+    // Read data from DB
+    const db = await readFromDb();
+    if (!db.data) {
+        log('No settings found in DB, configuring defaults.');
+        db.data = defaultState;
+        writeToDb();
+    }
+    else {
+        log(`Settings loaded from DB (${db.data.universes.flatMap(x => x.snapshots).length} snapshots).`)
+    }
+    const state = db.data;
+
     const getDmxDataReceivedForUniverse = (universeId: number) => liveContent[universeId] ?? {};
 
     log(`State ready`);
 
     return {
         addSnapshot: (universeId, name) =>
-            getUniverseById(universeId, state).snapshots.push({
-                id: webcrypto.randomUUID(),
-                created: new Date(),
-                updated: new Date(),
-                color: DEFAULTCOLOR,
-                dmxData: getDmxDataReceivedForUniverse(universeId),
-                enabled: false,
-                name: name,
-            }),
+            patchUniverseById(
+                universeId,
+                {
+                    snapshots: [
+                        ...getUniverseById(universeId, state).snapshots,
+                        {
+                            id: webcrypto.randomUUID(),
+                            created: new Date(),
+                            updated: new Date(),
+                            color: DEFAULTCOLOR,
+                            dmxData: getDmxDataReceivedForUniverse(universeId),
+                            enabled: false,
+                            name: name,
+                        },
+                    ],
+                },
+                state,
+            ),
 
         deleteSnapshot: (universeId, snapshotId) =>
-            (getUniverseById(universeId, state).snapshots = getUniverseById(universeId, state).snapshots.filter(
-                (x) => x.id !== snapshotId,
-            )),
+            patchUniverseById(
+                universeId,
+                { snapshots: getUniverseById(universeId, state).snapshots.filter((x) => x.id !== snapshotId) },
+                state,
+            ),
 
         updateSnapshotDmxData: (universeId: number, snapshotId: string) =>
             patchSnapshotById(universeId, snapshotId, { dmxData: getDmxDataReceivedForUniverse(universeId) }, state),

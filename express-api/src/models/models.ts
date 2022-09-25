@@ -17,6 +17,5 @@ export interface StateService {
 }
 
 export interface State {
-    priority: number;
     universes: Universe[];
 }

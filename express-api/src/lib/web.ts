@@ -1,7 +1,9 @@
 import express, { Express } from 'express';
-import { StateService } from '../models/models';
-import { getCategoryLogger } from './utils';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+import { StateService } from '../models/models.js';
+import { getCategoryLogger } from './utils.js';
 
 const log = getCategoryLogger('Web server');
 
@@ -12,7 +14,7 @@ export const setupWebServer = async (state: StateService) => {
     app.use(express.json());
     const port = 3000;
 
-    app.use(express.static(path.resolve(__dirname, '../../../../../react-client/build')));
+    app.use(express.static(path.resolve(dirname(fileURLToPath(import.meta.url)), '../../../../../react-client/build')));
 
     setupUniverseApi(app, state);
     setupSnapshotApi(app, state);

@@ -1,6 +1,7 @@
 import { Receiver, Sender } from 'sacn';
-import { StateService } from '../models/models';
-import { getCategoryLogger } from './utils';
+
+import { StateService } from '../models/models.js';
+import { getCategoryLogger } from './utils.js';
 
 const log = getCategoryLogger('SACN server');
 

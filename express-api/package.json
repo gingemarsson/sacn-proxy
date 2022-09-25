@@ -8,6 +8,7 @@
     },
     "dependencies": {
         "express": "^4.18.1",
+        "lowdb": "^3.0.0",
         "sacn": "^4.2.0",
         "typescript": "*"
     },
@@ -27,6 +28,7 @@
     "include": [
         "src/**/*.ts"
     ],
+    "type": "module",
     "baseUrl": ".",
     "prettier": {
         "semi": true,
