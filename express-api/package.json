@@ -2,7 +2,7 @@
     "scripts": {
         "watch": "tsc -w",
         "build": "tsc",
-        "serve": "node dist/main.js",
+        "serve": "node dist/express-api/src/main.js",
         "lint": "eslint .",
         "format": "prettier -w ."
     },

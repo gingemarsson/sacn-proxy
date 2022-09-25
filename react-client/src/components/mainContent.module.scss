@@ -1,0 +1,14 @@
+.container {
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: #252526;
+    max-width: 1400px;
+    display: flex;
+    gap: 1rem;
+}
+
+@media screen and (max-width: 800px) {
+    .container {
+        flex-direction: column;
+    }
+}

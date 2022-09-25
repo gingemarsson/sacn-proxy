@@ -1,0 +1,21 @@
+.button {
+    color: #dddddd;
+    background-color: #333333;
+    border: none;
+    padding: 1rem;
+    margin: 0rem;
+    flex-grow: 1;
+}
+
+.button:active {
+    background-color: #444444;
+}
+
+.sideButton {
+    border-left: 1px solid #444444;
+    flex-grow: 0 !important;
+}
+
+.highlighted {
+    background-color: #085a9d !important;
+}

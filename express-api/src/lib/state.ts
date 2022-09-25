@@ -1,9 +1,10 @@
-import { Snapshot, State, StateService, Universe } from '../models/models';
+import { State, StateService } from '../models/models';
 import { getCategoryLogger } from './utils';
 import { webcrypto } from 'crypto';
+import { Snapshot, Universe } from '../../../shared/models/models';
 
 const log = getCategoryLogger('State service');
-const DEFAULTCOLOR = '#222222';
+const DEFAULTCOLOR = undefined;
 
 export const getUniverseById = (id: number, state: State) => {
     const universe = state.universes.find((x) => x.id === id);
@@ -117,7 +118,7 @@ export const setupState = (
             }),
 
         deleteSnapshot: (universeId, snapshotId) =>
-            getUniverseById(universeId, state).snapshots.filter((x) => x.id !== snapshotId),
+            getUniverseById(universeId, state).snapshots = getUniverseById(universeId, state).snapshots.filter((x) => x.id !== snapshotId),
 
         updateSnapshotDmxData: (universeId: number, snapshotId: string) =>
             patchSnapshotById(universeId, snapshotId, { dmxData: getDmxDataReceivedForUniverse(universeId) }, state),
