@@ -5,6 +5,7 @@
     padding: 1rem;
     margin: 0rem;
     flex-grow: 1;
+    border: rgba(1,1,1,0) 2px solid;
 }
 
 .button:active {
@@ -17,5 +18,5 @@
 }
 
 .highlighted {
-    background-color: #085a9d !important;
+    border: #DDDDDD 2px solid;
 }

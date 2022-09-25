@@ -3,12 +3,24 @@
     padding: 1rem;
     background-color: #252526;
     max-width: 1400px;
+}
+
+.universeListContainer {
     display: flex;
     gap: 1rem;
+    flex-direction: row;
 }
 
 @media screen and (max-width: 800px) {
-    .container {
+    .universeListContainer {
         flex-direction: column;
     }
+}
+
+.headingContainer {
+    display: flex;
+}
+
+.heading {
+    flex-grow: 1;
 }

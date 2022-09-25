@@ -11,7 +11,8 @@ type Props = {
 
 const Button: React.FC<Props> = ({ children, onClick, color, isSideButton = false, isHighlighted = false }: Props) => {
     return (
-        <button style={color ? {backgroundColor: color} : {}}
+        <button
+            style={color ? { backgroundColor: color } : {}}
             className={
                 styles.button +
                 ' ' +
