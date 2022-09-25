@@ -4,7 +4,7 @@ import { getCategoryLogger } from './lib/utils';
 import { setupWebServer } from './lib/web';
 
 const APP_NAME = 'node-sacn-proxy';
-const APP_PRIO = 190;
+const APP_PRIO = 90;
 const UNIVERSES = [1, 2, 3, 4];
 
 const log = getCategoryLogger('Main');

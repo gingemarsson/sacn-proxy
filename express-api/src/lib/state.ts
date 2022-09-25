@@ -63,6 +63,10 @@ export const patchSnapshotById = (universeId: number, snapshotId: string, patch:
 export const getDmxDataToSendForUniverse = (universeId: number, state: State) => {
     const universe = getUniverseById(universeId, state);
 
+    if (!universe.snapshots.some((x) => x.enabled)) {
+        return null;
+    }
+
     const mergedDmxData = universe.snapshots.reduce((merged, snapshot) => {
         if (!snapshot.enabled) {
             return merged;
@@ -102,7 +106,7 @@ export const setupState = (
     };
 
     const getDmxDataReceivedForUniverse = (universeId: number) => liveContent[universeId] ?? {};
-
+    
     log(`State ready`);
 
     return {
@@ -112,13 +116,15 @@ export const setupState = (
                 created: new Date(),
                 updated: new Date(),
                 color: DEFAULTCOLOR,
-                dmxData: {},
+                dmxData: getDmxDataReceivedForUniverse(universeId),
                 enabled: false,
                 name: name,
             }),
 
         deleteSnapshot: (universeId, snapshotId) =>
-            getUniverseById(universeId, state).snapshots = getUniverseById(universeId, state).snapshots.filter((x) => x.id !== snapshotId),
+            (getUniverseById(universeId, state).snapshots = getUniverseById(universeId, state).snapshots.filter(
+                (x) => x.id !== snapshotId,
+            )),
 
         updateSnapshotDmxData: (universeId: number, snapshotId: string) =>
             patchSnapshotById(universeId, snapshotId, { dmxData: getDmxDataReceivedForUniverse(universeId) }, state),

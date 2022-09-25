@@ -1,4 +1,4 @@
-import {Universe, Snapshot} from '../../../shared/models/models';
+import { Universe, Snapshot } from '../../../shared/models/models';
 
 export interface StateService {
     addSnapshot: (universeId: number, snapshotName: string) => void;
@@ -13,7 +13,7 @@ export interface StateService {
     getSnapshotList: (universeId: number) => Snapshot[];
     updateUniverseName: (universeId: number, name: string) => void;
 
-    getDmxDataToSendForUniverse: (universeId: number) => Record<number, number>;
+    getDmxDataToSendForUniverse: (universeId: number) => Record<number, number> | null;
 }
 
 export interface State {
