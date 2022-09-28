@@ -20,6 +20,5 @@ export const readFromDb = async () => {
 };
 
 export const writeToDb = () => {
-    log('Writing to DB');
     db.write();
 };
