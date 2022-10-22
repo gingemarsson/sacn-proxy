@@ -7,9 +7,17 @@ type Props = {
     isHighlighted?: boolean;
     children?: ReactNode;
     color?: string;
+    tooltip?: string;
 };
 
-const Button: React.FC<Props> = ({ children, onClick, color, isSideButton = false, isHighlighted = false }: Props) => {
+const Button: React.FC<Props> = ({
+    children,
+    onClick,
+    color,
+    isSideButton = false,
+    isHighlighted = false,
+    tooltip,
+}: Props) => {
     return (
         <button
             style={color ? { backgroundColor: color } : {}}
@@ -21,6 +29,7 @@ const Button: React.FC<Props> = ({ children, onClick, color, isSideButton = fals
                 (isHighlighted ? ' ' + styles.highlighted : '')
             }
             onClick={onClick}
+            title={tooltip}
         >
             {children}
         </button>

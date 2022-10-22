@@ -66,21 +66,23 @@ export const patchSnapshotById = (universeId: number, snapshotId: string, patch:
     return snapshot;
 };
 
-const subtractRecord = (target: Record<number, number>, toDelete: Record<number, number>) => {{
-    const result: Record<number, number> = {};
+const subtractRecord = (target: Record<number, number>, toDelete: Record<number, number>) => {
+    {
+        const result: Record<number, number> = {};
 
-    for (const address in target) {
-        const value = target[address];
+        for (const address in target) {
+            const value = target[address];
 
-        if (toDelete[address] === target[address]) {
-            continue;
+            if (toDelete[address] === target[address]) {
+                continue;
+            }
+
+            result[address] = value;
         }
 
-        result[address] = value;
+        return result;
     }
-
-    return result;
-}}
+};
 
 export const getDmxDataToSendForUniverse = (universeId: number, state: State) => {
     const universe = getUniverseById(universeId, state);
@@ -132,9 +134,8 @@ export const setupState = async (
         log('No settings found in DB, configuring defaults.');
         db.data = defaultState;
         writeToDb();
-    }
-    else {
-        log(`Settings loaded from DB (${db.data.universes.flatMap(x => x.snapshots).length} snapshots).`)
+    } else {
+        log(`Settings loaded from DB (${db.data.universes.flatMap((x) => x.snapshots).length} snapshots).`);
     }
     const state = db.data;
 
@@ -172,9 +173,19 @@ export const setupState = async (
 
         updateSnapshotDmxData: (universeId: number, snapshotId: string) =>
             patchSnapshotById(universeId, snapshotId, { dmxData: getDmxDataReceivedForUniverse(universeId) }, state),
-        
+
         deleteSnapshotDmxData: (universeId: number, snapshotId: string) =>
-            patchSnapshotById(universeId, snapshotId, { dmxData: subtractRecord(getSnapshotById(universeId, snapshotId, state).dmxData, getDmxDataReceivedForUniverse(universeId)) }, state),
+            patchSnapshotById(
+                universeId,
+                snapshotId,
+                {
+                    dmxData: subtractRecord(
+                        getSnapshotById(universeId, snapshotId, state).dmxData,
+                        getDmxDataReceivedForUniverse(universeId),
+                    ),
+                },
+                state,
+            ),
 
         updateSnapshotColor: (universeId: number, snapshotId: string, color: string) =>
             patchSnapshotById(universeId, snapshotId, { color: color }, state),

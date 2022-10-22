@@ -3,7 +3,7 @@ import styles from './UniverseDisplay.module.scss';
 import { Universe } from '../../../shared/models/models';
 import Button from './button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faPalette, faPen, faSave, faSquareMinus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPalette, faPen, faSave, faSquareMinus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
     universe: Universe;
@@ -38,41 +38,28 @@ const UniverseDisplay: React.FC<Props> = ({ universe, makeApiCall, showEditButto
                         <>
                             <Button
                                 isSideButton={true}
-                                onClick={() =>
-                                    makeApiCall(
-                                        generateApiUrl(
-                                            universe.id,
-                                            snapshot.id,
-                                            'updateDmxData',
-                                        ),
-                                    )
-                                }
+                                tooltip="Overwrite current DMX with snapshot"
+                                onClick={() => makeApiCall(generateApiUrl(universe.id, snapshot.id, 'updateDmxData'))}
                             >
                                 <FontAwesomeIcon icon={faSave} />
                             </Button>
                             <Button
                                 isSideButton={true}
-                                onClick={() =>
-                                    makeApiCall(
-                                        generateApiUrl(
-                                            universe.id,
-                                            snapshot.id,
-                                            'deleteDmxData',
-                                        ),
-                                    )
-                                }
+                                tooltip="Subtract current DMX from snapshot"
+                                onClick={() => makeApiCall(generateApiUrl(universe.id, snapshot.id, 'deleteDmxData'))}
                             >
                                 <FontAwesomeIcon icon={faSquareMinus} />
                             </Button>
                             <Button
                                 isSideButton={true}
+                                tooltip="Rename"
                                 onClick={() =>
                                     makeApiCall(
                                         generateApiUrl(
                                             universe.id,
                                             snapshot.id,
                                             'updateName',
-                                            prompt('Namn', snapshot.name) ?? '',
+                                            prompt('Namn', snapshot.name) ?? snapshot.name,
                                         ),
                                     )
                                 }
@@ -81,13 +68,14 @@ const UniverseDisplay: React.FC<Props> = ({ universe, makeApiCall, showEditButto
                             </Button>
                             <Button
                                 isSideButton={true}
+                                tooltip="Change color"
                                 onClick={() =>
                                     makeApiCall(
                                         generateApiUrl(
                                             universe.id,
                                             snapshot.id,
                                             'updateColor',
-                                            prompt('Färg (hex)', snapshot.color) ?? '',
+                                            prompt('Färg (hex)', snapshot.color) ?? snapshot.color,
                                         ),
                                     )
                                 }
@@ -96,6 +84,7 @@ const UniverseDisplay: React.FC<Props> = ({ universe, makeApiCall, showEditButto
                             </Button>
                             <Button
                                 isSideButton={true}
+                                tooltip="Delete"
                                 onClick={() => makeApiCall(generateApiUrl(universe.id, snapshot.id, 'delete'))}
                             >
                                 <FontAwesomeIcon icon={faTrash} />

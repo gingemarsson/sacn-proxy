@@ -75,11 +75,7 @@ export const setupDmxSending = (universes: number[], state: StateService, appNam
     setInterval(async () => {
         universes.forEach(async (universeId) => {
             const sender = sACNSenders[universeId];
-            const dataToSend = state.getDmxDataToSendForUniverse(universeId);
-
-            if (!dataToSend) {
-                return;
-            }
+            const dataToSend = state.getDmxDataToSendForUniverse(universeId) ?? {};
 
             await sender.send({
                 payload: dataToSend,
