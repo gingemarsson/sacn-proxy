@@ -60,6 +60,10 @@ const setupSnapshotApi = (app: Express, state: StateService) => {
                 state.updateSnapshotDmxData(universeId, snapshotId);
                 break;
 
+            case 'deleteDmxData':
+                state.deleteSnapshotDmxData(universeId, snapshotId);
+                break;
+
             case 'updateName':
                 state.updateSnapshotName(universeId, snapshotId, value ?? '');
                 break;

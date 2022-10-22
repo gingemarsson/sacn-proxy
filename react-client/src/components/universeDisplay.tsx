@@ -3,7 +3,7 @@ import styles from './UniverseDisplay.module.scss';
 import { Universe } from '../../../shared/models/models';
 import Button from './button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faPalette, faPen, faSave, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faPalette, faPen, faSave, faSquareMinus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
     universe: Universe;
@@ -49,6 +49,20 @@ const UniverseDisplay: React.FC<Props> = ({ universe, makeApiCall, showEditButto
                                 }
                             >
                                 <FontAwesomeIcon icon={faSave} />
+                            </Button>
+                            <Button
+                                isSideButton={true}
+                                onClick={() =>
+                                    makeApiCall(
+                                        generateApiUrl(
+                                            universe.id,
+                                            snapshot.id,
+                                            'deleteDmxData',
+                                        ),
+                                    )
+                                }
+                            >
+                                <FontAwesomeIcon icon={faSquareMinus} />
                             </Button>
                             <Button
                                 isSideButton={true}
